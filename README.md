@@ -1,5 +1,10 @@
 # Jotter – Less noise. More signal. With AI.
 
+[![Docker Build](https://github.com/paulz-dev/jotter/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/paulz-dev/jotter/actions/workflows/docker-publish.yml)
+[![License](https://img.shields.io/github/license/paulz-dev/jotter)](LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/paulz-dev/jotter)](https://github.com/paulz-dev/jotter/releases)
+[![Docker Image](https://img.shields.io/badge/docker-ghcr.io-blue)](https://ghcr.io/paulz-dev/jotter)
+
 Jotter is a simple note-taking and enrichment app.  
 You can create notes, edit them, delete them, search them, and enrich them with **AI-powered summaries and tags**. It also provides you an AI powered signal list for the day to help focus on what is most important to you. 
 
@@ -20,7 +25,7 @@ The goal of this project is to demonstrate how to combine:
 - **Search** notes by free text or tags
 - **Enrich** notes with AI → summary (≤ 25 words) + up to 5 tags
 - **Persist** notes in SQLite (`notes.db`)
-- **Top 5 signals (today)** — one click shows today’s five most important *signal* notes
+- **Top 5 signals (today)** — one click shows today's five most important *signal* notes
 - **Run on your desktop** via Docker (`http://localhost:3000`). This is intended as a local desktop run app only.
 
 ---
@@ -43,7 +48,15 @@ The simplest way to run everything is inside Docker:
 docker compose up --build
 ```
 
-Open **http://localhost:3000** → you’ll see Jotter.
+**Or use the pre-built image from GitHub Container Registry:**
+
+```bash
+# Pull and run the latest version
+docker pull ghcr.io/paulz-dev/jotter:latest
+docker run -p 3000:3000 -v ./data:/app/data ghcr.io/paulz-dev/jotter:latest
+```
+
+Open **http://localhost:3000** → you'll see Jotter.
 
 - Data is stored in a SQLite file in `./data/notes.db`
 - Stop the app:
@@ -97,11 +110,35 @@ This project was built step by step:
 2. **AI enrichment**: Added `/enrich` route using OpenAI API, with a fallback heuristic.
 3. **Frontend**: Started with a minimal HTML page → upgraded to a Vite React app.
 4. **Features added**: Edit, delete, search, enrichment buttons.
-5. **Styling**: Inspired by TRATON.com’s palette for a clean corporate look.
+5. **Styling**: Inspired by TRATON.com's palette for a clean corporate look.
 6. **Packaging**: Dockerfile + docker-compose for reproducible local runs.
 7. **Agent readiness**: Added `AGENTS.md` so MCP-compatible AI agents can use this app programmatically.
 
-The key idea: **separate signal from noise within our work and life for notes with AI** → Jotter is an attempt to demonstrates this concept in practice.
+The core principle: **AI-powered signal extraction from everyday notes** — Jotter demonstrates this concept in practice.
+
+---
+
+## Project Structure
+
+```
+├── src/
+│   ├── server/          # Express API server
+│   │   ├── index.ts     # Main server entry point
+│   │   ├── routes.ts    # REST API endpoints
+│   │   ├── store.ts     # SQLite data layer
+│   │   ├── enrich.ts    # AI enrichment logic
+│   │   └── types.ts     # TypeScript definitions
+│   └── mcp/
+│       └── server.ts    # Model Context Protocol server
+├── ui/                  # React frontend (Vite)
+├── data/               # SQLite database (gitignored)
+├── .github/
+│   └── workflows/      # GitHub Actions (Docker publishing)
+├── docker-compose.yml  # Local development setup
+├── Dockerfile          # Container build instructions
+├── AGENTS.md          # Documentation for AI agents
+└── README.md          # This file
+```
 
 ---
 
@@ -164,6 +201,12 @@ API_URL=http://localhost:3000/api npm run dev:mcp
 
 ---
 
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to Jotter.
+
+---
+
 ## Next Steps (WIP)
 - Add semantic search with embeddings
 - Add authentication
@@ -172,4 +215,5 @@ API_URL=http://localhost:3000/api npm run dev:mcp
 ---
 
 ## License
-MIT
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
