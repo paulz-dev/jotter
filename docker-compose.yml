@@ -1,0 +1,31 @@
+services:
+  jotter:
+    build: .
+    container_name: jotter
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_PATH=/app/data/notes.db
+      # Use an env file or export OPENAI_API_KEY in your shell instead of hardcoding:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  # TCP bridge for the MCP server (separate container; does not restart 'jotter')
+  jotter_mcp:
+    build: .
+    container_name: jotter_mcp
+    command: ["node", "server-tcp.js"]
+    environment:
+      - MCP_PORT=7020
+      - DB_PATH=/app/data/notes.db
+      - API_URL=http://jotter:3000/api
+    ports:
+      - "127.0.0.1:7020:7020"   # bind to localhost for safety
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - jotter
+    restart: unless-stopped
+

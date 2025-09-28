@@ -1,0 +1,16 @@
+# dependencies & builds
+node_modules
+dist
+ui/node_modules
+ui/dist
+
+# local env & data
+.env
+notes.db
+notes.db-*
+data
+certs
+
+# misc
+.DS_Store
+npm-debug.log*

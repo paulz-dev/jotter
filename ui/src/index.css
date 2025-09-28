@@ -1,0 +1,92 @@
+/* ---- Base / reset ---- */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #1f2937;           /* slate-800 */
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+/* ---- App container: full width with side padding ---- */
+#root {
+  max-width: none;          /* remove 900px cap */
+  margin: 0;                /* no centering */
+  padding: 16px 24px 40px;  /* comfy sides + bottom */
+}
+
+/* Cards should stretch nicely */
+.card {
+  width: 100%;
+}
+
+/* ---- Typography ---- */
+h1 {
+  margin: 8px 0 16px;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+a {
+  color: #2563eb;           /* blue-600 */
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ---- Controls ---- */
+textarea { width: 100%; }
+
+input {
+  padding: 6px 8px;
+  border: 1px solid #e5e7eb;   /* gray-200 */
+  border-radius: 6px;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 12px;
+  background-color: #f9fafb;   /* gray-50 */
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+button:hover { background-color: #f3f4f6; }
+button:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+
+/* Make input rows wrap nicely on small screens */
+.controls-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Optional: constrain on ultra-wide screens */
+@media (min-width: 1600px) {
+  #root {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* ---- Optional dark mode tweak ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #e5e7eb;
+    background-color: #0b0f14;
+  }
+  input, button { border-color: #334155; }
+  button { background-color: #111827; }
+  button:hover { background-color: #0f172a; }
+}
+
